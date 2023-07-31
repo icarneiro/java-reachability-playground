@@ -51,7 +51,6 @@ jobs:
         uses: zaproxy/action-baseline@v0.6.1
         with:
           command: monitor
-          token: ${{ secrets.GITHUB_TOKEN }}
           docker_name: 'owasp/zap2docker-stable'
           target: 'https://ginandjuice.shop/'
           rules_file_name: '.zap/rules.tsv'
