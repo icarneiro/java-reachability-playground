@@ -3,25 +3,34 @@ name: Example workflow for using Snyk and OWASP ZAP
 on: push
 
 jobs:
+  SAST:
+    runs-on: ubuntu-latest
+    name: SonarCloud (SAST tool)
+    steps:
+      - uses: actions/checkout@v3
+      - name: SonarCloud Scan
+        uses: sonarsource/sonarcloud-github-action@master
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
   SCA:
     runs-on: ubuntu-latest
-    name: Scan the application using SYNK (SCA tool)
+    name: SYNK (SCA tool)
     steps:
       - uses: actions/checkout@master
-      - name: Run Snyk to check for vulnerabilities
+      - name: Snyk scan
         uses: snyk/actions/maven@master
         # continue-on-error: true
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
   DAST:
     runs-on: ubuntu-latest
-    name: Scan the application using OWASP ZAP (DAST tool)
+    name: OWASP ZAP (DAST tool)
     steps:
       - name: Checkout
         uses: actions/checkout@v2
         with:
           ref: master
-      - name: ZAP Scan
+      - name: OWASP ZAP scan
         uses: zaproxy/action-full-scan@v0.5.1
         # uses: zaproxy/action-baseline@v0.6.1
         with:
