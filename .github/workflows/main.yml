@@ -38,7 +38,7 @@ jobs:
 #         with:
 #           command: monitor
   DAST:
-    needs: SCA
+    # needs: SCA
     runs-on: ubuntu-latest
     name: OWASP ZAP (DAST tool)
     steps:
