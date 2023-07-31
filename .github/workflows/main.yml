@@ -18,30 +18,30 @@ jobs:
       run:  mvn -B verify sonar:sonar -Dsonar.projectKey=devsecops-security-champions_sonarcloud -Dsonar.organization=devsecops-security-champions -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-#   SCA:
-#     runs-on: ubuntu-latest
-#     name: SYNK (SCA tool)
-#     steps:
-#       - uses: actions/checkout@master
-#       - name: Snyk scan
-#         uses: snyk/actions/maven@master
-#         # continue-on-error: true
-#         env:
-#           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-#   DAST:
-#     runs-on: ubuntu-latest
-#     name: OWASP ZAP (DAST tool)
-#     steps:
-#       - name: Checkout
-#         uses: actions/checkout@v2
-#         with:
-#           ref: master
-#       - name: OWASP ZAP scan
-#         uses: zaproxy/action-full-scan@v0.5.1
-#         # uses: zaproxy/action-baseline@v0.6.1
-#         with:
-#           token: ${{ secrets.GITHUB_TOKEN }}
-#           docker_name: 'owasp/zap2docker-stable'
-#           target: 'http://testphp.vulnweb.com/'
-#           rules_file_name: '.zap/rules.tsv'
-#           cmd_options: '-a'
+  SCA:
+    runs-on: ubuntu-latest
+    name: SYNK (SCA tool)
+    steps:
+      - uses: actions/checkout@master
+      - name: Snyk scan
+        uses: snyk/actions/maven@master
+        # continue-on-error: true
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+  DAST:
+    runs-on: ubuntu-latest
+    name: OWASP ZAP (DAST tool)
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: master
+      - name: OWASP ZAP scan
+        uses: zaproxy/action-full-scan@v0.5.1
+        # uses: zaproxy/action-baseline@v0.6.1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          docker_name: 'owasp/zap2docker-stable'
+          target: 'http://testphp.vulnweb.com/'
+          rules_file_name: '.zap/rules.tsv'
+          cmd_options: '-a'
