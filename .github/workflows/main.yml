@@ -1,7 +1,7 @@
 name: Example workflow for Maven using Snyk
 on: push
 jobs:
-  security:
+  SCA:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
