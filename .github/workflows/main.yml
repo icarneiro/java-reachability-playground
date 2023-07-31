@@ -1,8 +1,11 @@
-name: Example workflow for Maven using Snyk
+name: Example workflow for using Snyk and OWASP ZAP
+
 on: push
+
 jobs:
   SCA:
     runs-on: ubuntu-latest
+    name: Scan the application using SYNK (SCA tool)
     steps:
       - uses: actions/checkout@master
       - name: Run Snyk to check for vulnerabilities
@@ -10,3 +13,19 @@ jobs:
         continue-on-error: true
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+  DAST:
+    runs-on: ubuntu-latest
+    name: Scan the application using OWASP ZAP (DAST tool)
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: master
+      - name: ZAP Scan
+        uses: zaproxy/action-full-scan@v0.5.1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          docker_name: 'owasp/zap2docker-stable'
+          target: 'https://testphp.vulnweb.com/'
+          rules_file_name: '.zap/rules.tsv'
+          cmd_options: '-a'
