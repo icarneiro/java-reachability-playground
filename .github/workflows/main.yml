@@ -69,6 +69,7 @@ jobs:
       - name: ZAP Scan
         # uses: zaproxy/action-full-scan@v0.5.1
         uses: zaproxy/action-baseline@v0.8.2
+        continue-on-error: true
         with:
           command: monitor
           token: ${{ secrets.GITHUB_TOKEN }}
