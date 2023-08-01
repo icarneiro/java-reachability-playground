@@ -6,68 +6,53 @@ on:
       - master
       - main
 jobs:
-#   SAST:
-#     runs-on: ubuntu-latest
-#     name: SonarCloud (SAST tool)
-#     steps:
-#     - uses: actions/checkout@v2
-#       with:
-#         # Disabling shallow clone is recommended for improving relevancy of reporting
-#         fetch-depth: 0
-#     - name: Set up JDK 11
-#       uses: actions/setup-java@v2
-#       with:
-#         java-version: '11'
-#         distribution: 'temurin'
-#         cache: maven
-#     - name: Build with Maven cloud
-#       run:  mvn -B verify sonar:sonar -Dsonar.projectKey=devsecops-security-champions_sonarcloud -Dsonar.organization=devsecops-security-champions -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN
-#       env:
-#         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-#   SCA:
-#     needs: SAST
-#     runs-on: ubuntu-latest
-#     name: SYNK (SCA tool)
-#     steps:
-#       - uses: actions/checkout@master
-#       - name: Snyk scan
-#         uses: snyk/actions/maven@master
-#         # continue-on-error: true
-#         env:
-#           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-#         with:
-#           command: monitor
-#   DAST:
-#     # needs: SCA
-#     runs-on: ubuntu-latest
-#     name: OWASP ZAP (DAST tool)
-#     steps:
-#       - name: Checkout
-#         uses: actions/checkout@v2
-#         with:
-#           ref: master
-#       - name: OWASP ZAP scan
-#         # uses: zaproxy/action-full-scan@v0.5.1
-#         uses: zaproxy/action-baseline@v0.6.1
-#         with:
-#           command: monitor
-#           docker_name: 'owasp/zap2docker-stable'
-#           target: 'https://ginandjuice.shop/'
-#           rules_file_name: '.zap/rules.tsv'
-#           cmd_options: '-a'
-  DAST:         
+  SAST:
     runs-on: ubuntu-latest
-    name: zap
+    name: SonarCloud (SAST tool)
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        # Disabling shallow clone is recommended for improving relevancy of reporting
+        fetch-depth: 0
+    - name: Set up JDK 11
+      uses: actions/setup-java@v2
+      with:
+        java-version: '11'
+        distribution: 'temurin'
+        cache: maven
+    - name: Build with Maven cloud
+      run:  mvn -B verify sonar:sonar -Dsonar.projectKey=devsecops-security-champions_sonarcloud -Dsonar.organization=devsecops-security-champions -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN
+      env:
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+  SCA:
+    needs: SAST
+    runs-on: ubuntu-latest
+    name: SYNK (SCA tool)
+    steps:
+      - uses: actions/checkout@master
+      - name: Snyk scan
+        uses: snyk/actions/maven@master
+        # continue-on-error: true
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          command: monitor
+  DAST:         
+    needs: SCA
+    runs-on: ubuntu-latest
+    name: OWASP ZAP (DAST tool)
     steps:
       - name: Checkout
         uses: actions/checkout@v2
         with:
           ref: master
-      - name: ZAP Scan
+      - name: OWASP ZAP scan
+        # uses: zaproxy/action-full-scan@v0.5.1
         uses: zaproxy/action-baseline@v0.8.2
         with:
+          command: monitor
           token: ${{ secrets.GITHUB_TOKEN }}
           docker_name: 'owasp/zap2docker-stable'
-          target: 'https://www.zaproxy.org/'
+          target: 'https://ginandjuice.shop/'
           rules_file_name: '.zap/rules.tsv'
           cmd_options: '-a'
