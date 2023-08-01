@@ -37,20 +37,36 @@ jobs:
 #           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 #         with:
 #           command: monitor
-  DAST:
-    # needs: SCA
+#   DAST:
+#     # needs: SCA
+#     runs-on: ubuntu-latest
+#     name: OWASP ZAP (DAST tool)
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v2
+#         with:
+#           ref: master
+#       - name: OWASP ZAP scan
+#         # uses: zaproxy/action-full-scan@v0.5.1
+#         uses: zaproxy/action-baseline@v0.6.1
+#         with:
+#           command: monitor
+#           docker_name: 'owasp/zap2docker-stable'
+#           target: 'https://ginandjuice.shop/'
+#           rules_file_name: '.zap/rules.tsv'
+#           cmd_options: '-a'
+  DAST:         
     runs-on: ubuntu-latest
-    name: OWASP ZAP (DAST tool)
+    name: zap
     steps:
       - name: Checkout
         uses: actions/checkout@v2
         with:
           ref: master
-      - name: OWASP ZAP scan
-        # uses: zaproxy/action-full-scan@v0.5.1
+      - name: ZAP Scan
         uses: zaproxy/action-baseline@v0.6.1
         with:
-          command: monitor
+          token: ${{ secrets.GITHUB_TOKEN }}
           docker_name: 'owasp/zap2docker-stable'
           target: 'https://ginandjuice.shop/'
           rules_file_name: '.zap/rules.tsv'
