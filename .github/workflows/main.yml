@@ -33,12 +33,11 @@ jobs:
       - uses: actions/checkout@master
       - name: Snyk scan
         uses: snyk/actions/maven@master
-        # continue-on-error: true
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           command: monitor
-  
+          
   DAST:         
     needs: SCA
     runs-on: ubuntu-latest
