@@ -3,7 +3,7 @@ import java.io.File;
 
 public class Unzipper {
     public static void main(String[] args) throws Exception {
-        String my_token = "c2VuaGExMjM0NQ=="
+        String my_token = "c2VuaGExMjM0NQ==";
         Butler butler = new Butler();
         butler.welcome();
         // https://app.snyk.io/vuln/SNYK-JAVA-ORGND4J-72550
