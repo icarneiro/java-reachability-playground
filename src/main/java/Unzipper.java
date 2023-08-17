@@ -2,9 +2,8 @@ import org.nd4j.util.ArchiveUtils;
 import java.io.File;
 
 public class Unzipper {
-    String my_token = "c2VuaGExMjM0NQ=="
     public static void main(String[] args) throws Exception {
-
+        String my_token = "c2VuaGExMjM0NQ=="
         Butler butler = new Butler();
         butler.welcome();
         // https://app.snyk.io/vuln/SNYK-JAVA-ORGND4J-72550
