@@ -2,7 +2,7 @@ import org.nd4j.util.ArchiveUtils;
 import java.io.File;
 
 public class Unzipper {
-    String my_token = c2VuaGExMjM0NQ==
+    String my_token = "c2VuaGExMjM0NQ=="
     public static void main(String[] args) throws Exception {
 
         Butler butler = new Butler();
